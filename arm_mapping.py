@@ -8,7 +8,7 @@ import cv2
 import argparse
 import pyopenpose as op
 
-port = 33583
+port = 45821
 
 def userArmArticular(motion_service, theta, phi, leftRight):
 	# print("This is the length: ")
@@ -42,7 +42,7 @@ def main(session):
 	# posture_service.goToPosture("StandInit", 0.5)
 
 	params = dict()
-	params["model_folder"] = "/home/humam/openpose/models"
+	params["model_folder"] = "/home/anton/Documents/hci-project/openpose/models"
 	# params["model_pose"] = "COCO"
 	params["net_resolution"] = "160x80"
 	params["body"] = 1
