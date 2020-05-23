@@ -362,6 +362,239 @@ def both_h_down:
 	except BaseException, err:
 	  print err
 
+def both_h_up_closed:
+	names = list()
+	times = list()
+	keys = list()
+
+	names.append("HeadPitch")
+	times.append([0.84])
+	keys.append([-0.17])
+
+	names.append("HeadYaw")
+	times.append([0.84])
+	keys.append([0])
+
+	names.append("LAnklePitch")
+	times.append([0.84])
+	keys.append([0.0794489])
+
+	names.append("LAnkleRoll")
+	times.append([0.84])
+	keys.append([-0.101617])
+
+	names.append("LElbowRoll")
+	times.append([0.84])
+	keys.append([-0.582494])
+
+	names.append("LElbowYaw")
+	times.append([0.84])
+	keys.append([-1.20675])
+
+	names.append("LHand")
+	times.append([0.84])
+	keys.append([0.327578])
+
+	names.append("LHipPitch")
+	times.append([0.84])
+	keys.append([0.170857])
+
+	names.append("LHipRoll")
+	times.append([0.84])
+	keys.append([0.0991299])
+
+	names.append("LHipYawPitch")
+	times.append([0.84])
+	keys.append([-0.163917])
+
+	names.append("LKneePitch")
+	times.append([0.84])
+	keys.append([-0.0914416])
+
+	names.append("LShoulderPitch")
+	times.append([0.84])
+	keys.append([0.218468])
+
+	names.append("LShoulderRoll")
+	times.append([0.84])
+	keys.append([0.204639])
+
+	names.append("LWristYaw")
+	times.append([0.84])
+	keys.append([1.17271])
+
+	names.append("RAnklePitch")
+	times.append([0.84])
+	keys.append([0.0794488])
+
+	names.append("RAnkleRoll")
+	times.append([0.84])
+	keys.append([0.0904404])
+
+	names.append("RElbowRoll")
+	times.append([0.84])
+	keys.append([0.515347])
+
+	names.append("RElbowYaw")
+	times.append([0.84])
+	keys.append([1.30961])
+
+	names.append("RHand")
+	times.append([0.84])
+	keys.append([0.342786])
+
+	names.append("RHipPitch")
+	times.append([0.84])
+	keys.append([0.152362])
+
+	names.append("RHipRoll")
+	times.append([0.84])
+	keys.append([-0.109374])
+
+	names.append("RHipYawPitch")
+	times.append([0.84])
+	keys.append([-0.163917])
+
+	names.append("RKneePitch")
+	times.append([0.84])
+	keys.append([-0.081])
+
+	names.append("RShoulderPitch")
+	times.append([0.84])
+	keys.append([0.188978])
+
+	names.append("RShoulderRoll")
+	times.append([0.84])
+	keys.append([-0.177182])
+
+	names.append("RWristYaw")
+	times.append([0.84])
+	keys.append([-1.28334])
+
+	try:
+	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+	  # motion = ALProxy("ALMotion", IP, 9559)
+	  motion = ALProxy("ALMotion")
+	  motion.angleInterpolation(names, keys, times, True)
+	except BaseException, err:
+	  print err
+
+def both_h_up_open:
+	names = list()
+	times = list()
+	keys = list()
+
+	names.append("HeadPitch")
+	times.append([0.96])
+	keys.append([-0.17])
+
+	names.append("HeadYaw")
+	times.append([0.96])
+	keys.append([0])
+
+	names.append("LAnklePitch")
+	times.append([0.96])
+	keys.append([0.0794489])
+
+	names.append("LAnkleRoll")
+	times.append([0.96])
+	keys.append([-0.101617])
+
+	names.append("LElbowRoll")
+	times.append([0.96])
+	keys.append([-0.582313])
+
+	names.append("LElbowYaw")
+	times.append([0.96])
+	keys.append([-1.20259])
+
+	names.append("LHand")
+	times.append([0.96])
+	keys.append([0.999407])
+
+	names.append("LHipPitch")
+	times.append([0.96])
+	keys.append([0.170857])
+
+	names.append("LHipRoll")
+	times.append([0.96])
+	keys.append([0.0991299])
+
+	names.append("LHipYawPitch")
+	times.append([0.96])
+	keys.append([-0.163917])
+
+	names.append("LKneePitch")
+	times.append([0.96])
+	keys.append([-0.0914416])
+
+	names.append("LShoulderPitch")
+	times.append([0.96])
+	keys.append([0.226562])
+
+	names.append("LShoulderRoll")
+	times.append([0.96])
+	keys.append([0.20568])
+
+	names.append("LWristYaw")
+	times.append([0.96])
+	keys.append([1.16975])
+
+	names.append("RAnklePitch")
+	times.append([0.96])
+	keys.append([0.0794488])
+
+	names.append("RAnkleRoll")
+	times.append([0.96])
+	keys.append([0.0904404])
+
+	names.append("RElbowRoll")
+	times.append([0.96])
+	keys.append([0.515182])
+
+	names.append("RElbowYaw")
+	times.append([0.96])
+	keys.append([1.30812])
+
+	names.append("RHand")
+	times.append([0.96])
+	keys.append([0.998124])
+
+	names.append("RHipPitch")
+	times.append([0.96])
+	keys.append([0.152362])
+
+	names.append("RHipRoll")
+	times.append([0.96])
+	keys.append([-0.109374])
+
+	names.append("RHipYawPitch")
+	times.append([0.96])
+	keys.append([-0.163917])
+
+	names.append("RKneePitch")
+	times.append([0.96])
+	keys.append([-0.081])
+
+	names.append("RShoulderPitch")
+	times.append([0.96])
+	keys.append([0.197153])
+
+	names.append("RShoulderRoll")
+	times.append([0.96])
+	keys.append([-0.179905])
+
+	names.append("RWristYaw")
+	times.append([0.96])
+	keys.append([-1.27435])
+
+	try:
+	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
+	  # motion = ALProxy("ALMotion", IP, 9559)
+	  motion = ALProxy("ALMotion")
+	  motion.angleInterpolation(names, keys, times, True)
+	except BaseException, err:
+	  print err
 
 
 
