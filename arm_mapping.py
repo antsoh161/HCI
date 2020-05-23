@@ -18,8 +18,8 @@ def userArmArticular(motion_service, theta, phi, leftRight):
 	JointNamesL = ["LShoulderRoll", "LShoulderPitch", "LElbowRoll", "LElbowYaw"]
 	JointNamesR = ["RShoulderRoll", "RShoulderPitch", "RElbowRoll", "RElbowYaw"]
 	if not len(leftRight): return
-	ArmL = [math.pi/2, theta[0], phi[0], 0]
-	ArmR = [-math.pi/2, theta[0], phi[0], 0]
+	ArmL = [math.pi/12, theta[0], phi[0], 0]
+	ArmR = [-math.pi/12, theta[0], phi[0], 0]
 	JointNames, Arm = [], []
 	if len(leftRight) == 2:
 		JointNames = JointNamesL + JointNamesR
@@ -80,8 +80,9 @@ def main(session):
 					and datum.poseKeypoints[0][4][2] > 0.7:
 				theta.append(-math.atan2(datum.poseKeypoints[0][2][1] - datum.poseKeypoints[0][3][1],
 								   datum.poseKeypoints[0][2][0] - datum.poseKeypoints[0][3][0]))
-				phi.append(-(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
+				phi.append(abs(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
 								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1])
+						   - math.pi/2)
 				leftRight.append("R")
 				print("Right - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 
