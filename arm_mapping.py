@@ -7,7 +7,11 @@ import motion
 import cv2
 import argparse
 import pyopenpose as op
+<<<<<<< HEAD
 import scripted_movements
+=======
+import scripted_movements as sm
+>>>>>>> 9eb2e6305786ce1e036fa641f24ae136ff5d0a8b
 
 port = 33583
 
@@ -52,7 +56,8 @@ def main(session):
 	opWrapper = op.WrapperPython()
 	opWrapper.configure(params)
 	opWrapper.start()
-
+	
+	hands_down = True
 	# Process Videao
 	datum = op.Datum()
 	cam = cv2.VideoCapture(0) # modify here for camera number
@@ -67,6 +72,7 @@ def main(session):
 		leftRight, theta, phi = [], [], []
 		print (len(str(datum.poseKeypoints)))
 		print ("\n")
+		
 		if len(str(datum.poseKeypoints)) > 1000:
 			if (datum.poseKeypoints[0][5][2] > 0.7 and datum.poseKeypoints[0][6][2] > 0.7
 				and datum.poseKeypoints[0][7][2] > 0.7):
@@ -82,18 +88,42 @@ def main(session):
 					scripted_movements.both_h_down(motion_service)
 
 				leftRight.append("L")
+				
+				if(theta > math.pi/3 and phi > -240):
+					sm.lh_up_open(motion_service)
+					hands_down = False
+
 				print("Left - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 
-			if datum.poseKeypoints[0][2][2] > 0.7 and datum.poseKeypoints[0][3][2] > 0.7\
+			elif datum.poseKeypoints[0][2][2] > 0.7 and datum.poseKeypoints[0][3][2] > 0.7\
 					and datum.poseKeypoints[0][4][2] > 0.7:
 				theta.append(-math.atan2(datum.poseKeypoints[0][2][1] - datum.poseKeypoints[0][3][1],
 								   datum.poseKeypoints[0][2][0] - datum.poseKeypoints[0][3][0]))
+<<<<<<< HEAD
 				phi.append(abs(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
 								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1])
 						   - math.pi/2)
+=======
+				phi.append(-(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
+								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1]))
+>>>>>>> 9eb2e6305786ce1e036fa641f24ae136ff5d0a8b
 				leftRight.append("R")
+				if(theta > math.pi/3 and phi > -240):
+					sm.rh_up_open(motion_service)
+					hands_down = False
 				print("Right - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
+<<<<<<< HEAD
 			userArmArticular(motion_service,theta, phi, leftRight)
+=======
+			else:
+				if(hands_down == False):
+					sm.both_h_down(motion_service)
+					hands_down = True
+
+			#userArmArticular(motion_service,theta, phi, leftRight)
+
+		
+>>>>>>> 9eb2e6305786ce1e036fa641f24ae136ff5d0a8b
 	# Always clean up
 	cam.release()
 	cv2.destroyAllWindows()
