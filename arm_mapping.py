@@ -76,11 +76,11 @@ def main(session):
 								   datum.poseKeypoints[0][6][0] - datum.poseKeypoints[0][5][0]))
 				phi.append(-abs(math.atan2(datum.poseKeypoints[0][7][1] - datum.poseKeypoints[0][6][1],
 								   datum.poseKeypoints[0][7][0] - datum.poseKeypoints[0][6][0])-theta[-1]))
-				leftRight.append("L")
 				
 				if(theta > math.pi/3 and phi > -240):
-					sm.lh_up_open(motion_service)
-					hands_down = False
+					leftRight.append("L")
+					#sm.lh_up_open(motion_service)
+					#hands_down = False
 
 				print("Left - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 
@@ -90,16 +90,26 @@ def main(session):
 								   datum.poseKeypoints[0][2][0] - datum.poseKeypoints[0][3][0]))
 				phi.append(-(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
 								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1]))
-				leftRight.append("R")
+				
 				if(theta > math.pi/3 and phi > -240):
-					sm.rh_up_open(motion_service)
-					hands_down = False
+					leftRight.append("R")
+					#sm.rh_up_open(motion_service)
+					#hands_down = False
 				print("Right - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 			else:
 				if(hands_down == False):
 					sm.both_h_down(motion_service)
 					hands_down = True
-
+			if len(leftRight) == 2:
+				sm.both_h_up_open(motion_service)
+				hands_down = False				
+			elif len(leftRight) > 0 and leftRight[0] == "R":
+				sm.rh_up_open(motion_service)
+				hands_down = False
+			elif len(leftRight) > 0  and leftRight[0] == "L":
+				sm.lh_up_open(motion_service)
+				hands_down = False
+			
 			#userArmArticular(motion_service,theta, phi, leftRight)
 
 		
