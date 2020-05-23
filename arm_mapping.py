@@ -8,7 +8,7 @@ import cv2
 import argparse
 import pyopenpose as op
 
-port = 33663
+port = 33583
 
 def userArmArticular(motion_service, theta, phi, leftRight):
 	# print("This is the length: ")
@@ -43,6 +43,7 @@ def main(session):
 
 	params = dict()
 	params["model_folder"] = "/home/humam/openpose/models"
+	# params["model_pose"] = "COCO"
 	params["net_resolution"] = "160x80"
 	params["body"] = 1
 	params["display"] = 1
@@ -71,7 +72,7 @@ def main(session):
 				theta.append(math.atan2(datum.poseKeypoints[0][6][1] - datum.poseKeypoints[0][5][1],
 								   datum.poseKeypoints[0][6][0] - datum.poseKeypoints[0][5][0]))
 				phi.append(-abs(math.atan2(datum.poseKeypoints[0][7][1] - datum.poseKeypoints[0][6][1],
-								   datum.poseKeypoints[0][7][0] - datum.poseKeypoints[0][6][0])+theta[-1]))
+								   datum.poseKeypoints[0][7][0] - datum.poseKeypoints[0][6][0])-theta[-1]))
 				leftRight.append("L")
 				print("Left - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 
@@ -79,8 +80,8 @@ def main(session):
 					and datum.poseKeypoints[0][4][2] > 0.7:
 				theta.append(-math.atan2(datum.poseKeypoints[0][2][1] - datum.poseKeypoints[0][3][1],
 								   datum.poseKeypoints[0][2][0] - datum.poseKeypoints[0][3][0]))
-				phi.append(abs(-math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
-								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1]))
+				phi.append(-math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
+								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) + theta[-1])
 				leftRight.append("R")
 				print("Right - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 
