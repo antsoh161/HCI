@@ -10,20 +10,20 @@ import scripted_movements as sm
 
 port = 33583
 
-def userArmArticular(motion_service, theta, phi, leftRight):
+def userArmArticular(motion_service, theta, leftRight):
 	# print("This is the length: ")
 	# print(len(leftRight))
 	print("\n")
 	pFractionMaxSpeed = 0.9
-	JointNamesL = ["LShoulderRoll", "LShoulderPitch", "LElbowRoll", "LElbowYaw"]
-	JointNamesR = ["RShoulderRoll", "RShoulderPitch", "RElbowRoll", "RElbowYaw"]
+	JointNamesL = ["LShoulderRoll", "LShoulderPitch"]
+	JointNamesR = ["RShoulderRoll", "RShoulderPitch"]
 	if not len(leftRight): return
-	ArmL = [math.pi/12, theta[0], phi[0], 0]
-	ArmR = [-math.pi/12, theta[0], phi[0], 0]
+	ArmL = [math.pi/12, theta[0] ]
+	ArmR = [-math.pi/12, theta[0] ]
 	JointNames, Arm = [], []
 	if len(leftRight) == 2:
 		JointNames = JointNamesL + JointNamesR
-		ArmR = [-math.pi/12, theta[1], phi[1], 0]
+		ArmR = [-math.pi/12, theta[1]]
 		Arm = ArmL + ArmR
 	elif leftRight[0] == "R":
 		JointNames = JointNamesR
@@ -39,7 +39,7 @@ def main(session):
 	motion_service = session.service("ALMotion")
 	posture_service = session.service("ALRobotPosture")
 	motion_service.wakeUp()
-	posture_service.goToPosture("StandInit", 0.5)
+	posture_service.goToPosture("Stand", 0.5)
 	params = dict()
 	params["model_folder"] = "/home/humam/openpose/models"
 	# params["model_pose"] = "COCO"
@@ -52,13 +52,12 @@ def main(session):
 	opWrapper.configure(params)
 	opWrapper.start()
 	
-	hands_down = True
 	# Process Videao
 	datum = op.Datum()
 	cam = cv2.VideoCapture(0) # modify here for camera number
 	while(cv2.waitKey(1) != 27):
 		# Get camera frame
-		cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+		# cam.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 		ret, frame = cam.read()
 		datum.cvInputData = frame
 		opWrapper.emplaceAndPop([datum])
@@ -67,39 +66,25 @@ def main(session):
 		leftRight, theta, phi = [], [], []
 		print (len(str(datum.poseKeypoints)))
 		print ("\n")
-		
+
 		if len(str(datum.poseKeypoints)) > 1000:
 			if (datum.poseKeypoints[0][5][2] > 0.7 and datum.poseKeypoints[0][6][2] > 0.7
 				and datum.poseKeypoints[0][7][2] > 0.7):
 				theta.append(math.atan2(datum.poseKeypoints[0][6][1] - datum.poseKeypoints[0][5][1],
 								   datum.poseKeypoints[0][6][0] - datum.poseKeypoints[0][5][0]))
-				phi.append(-abs(math.atan2(datum.poseKeypoints[0][7][1] - datum.poseKeypoints[0][6][1],
-								   datum.poseKeypoints[0][7][0] - datum.poseKeypoints[0][6][0])-theta[-1]))
+
 				leftRight.append("L")
-				
-				if(theta > math.pi/3 and phi > -240):
-					sm.lh_up_open(motion_service)
-					hands_down = False
+				print("Left - Theta: " + str(math.degrees(theta[-1])) + "\n")
 
-				print("Left - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
-
-			elif datum.poseKeypoints[0][2][2] > 0.7 and datum.poseKeypoints[0][3][2] > 0.7\
+			if datum.poseKeypoints[0][2][2] > 0.7 and datum.poseKeypoints[0][3][2] > 0.7\
 					and datum.poseKeypoints[0][4][2] > 0.7:
 				theta.append(-math.atan2(datum.poseKeypoints[0][2][1] - datum.poseKeypoints[0][3][1],
 								   datum.poseKeypoints[0][2][0] - datum.poseKeypoints[0][3][0]))
-				phi.append(abs(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
-								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1])
-						   - math.pi/2)
+
 				leftRight.append("R")
-				if(theta > math.pi/3 and phi > -240):
-					sm.rh_up_open(motion_service)
-					hands_down = False
-				print("Right - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
-			else:
-				if(hands_down == False):
-					sm.both_h_down(motion_service)
-					hands_down = True
-			#userArmArticular(motion_service,theta, phi, leftRight)
+				print("Right - Theta: " + str(math.degrees(theta[-1])) + "\n")
+
+			userArmArticular(motion_service,theta, leftRight)
 	# Always clean up
 	cam.release()
 	cv2.destroyAllWindows()
