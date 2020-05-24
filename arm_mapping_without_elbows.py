@@ -3,17 +3,12 @@ import sys
 import math
 from naoqi import ALProxy
 import qi
-import motion
 import cv2
 import argparse
 import pyopenpose as op
-<<<<<<< HEAD
-import scripted_movements
-=======
 import scripted_movements as sm
->>>>>>> 9eb2e6305786ce1e036fa641f24ae136ff5d0a8b
 
-port = 45821
+port = 33583
 
 def userArmArticular(motion_service, theta, phi, leftRight):
 	# print("This is the length: ")
@@ -23,8 +18,8 @@ def userArmArticular(motion_service, theta, phi, leftRight):
 	JointNamesL = ["LShoulderRoll", "LShoulderPitch", "LElbowRoll", "LElbowYaw"]
 	JointNamesR = ["RShoulderRoll", "RShoulderPitch", "RElbowRoll", "RElbowYaw"]
 	if not len(leftRight): return
-	ArmL = [math.pi/2, theta[0], phi[0], 0]
-	ArmR = [-math.pi/2, theta[0], phi[0], 0]
+	ArmL = [math.pi/12, theta[0], phi[0], 0]
+	ArmR = [-math.pi/12, theta[0], phi[0], 0]
 	JointNames, Arm = [], []
 	if len(leftRight) == 2:
 		JointNames = JointNamesL + JointNamesR
@@ -44,10 +39,9 @@ def main(session):
 	motion_service = session.service("ALMotion")
 	posture_service = session.service("ALRobotPosture")
 	motion_service.wakeUp()
-	# posture_service.goToPosture("StandInit", 0.5)
-
+	posture_service.goToPosture("StandInit", 0.5)
 	params = dict()
-	params["model_folder"] = "/home/anton/Documents/hci-project/openpose/models"
+	params["model_folder"] = "/home/humam/openpose/models"
 	# params["model_pose"] = "COCO"
 	params["net_resolution"] = "160x80"
 	params["body"] = 1
@@ -84,9 +78,8 @@ def main(session):
 				leftRight.append("L")
 				
 				if(theta > math.pi/3 and phi > -240):
-					leftRight.append("L")
-					#sm.lh_up_open(motion_service)
-					#hands_down = False
+					sm.lh_up_open(motion_service)
+					hands_down = False
 
 				print("Left - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 
@@ -94,31 +87,19 @@ def main(session):
 					and datum.poseKeypoints[0][4][2] > 0.7:
 				theta.append(-math.atan2(datum.poseKeypoints[0][2][1] - datum.poseKeypoints[0][3][1],
 								   datum.poseKeypoints[0][2][0] - datum.poseKeypoints[0][3][0]))
-				phi.append(-(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
-								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1]))
-				
+				phi.append(abs(math.atan2(datum.poseKeypoints[0][3][1] - datum.poseKeypoints[0][4][1],
+								   datum.poseKeypoints[0][3][0] - datum.poseKeypoints[0][4][0]) - theta[-1])
+						   - math.pi/2)
+				leftRight.append("R")
 				if(theta > math.pi/3 and phi > -240):
-					leftRight.append("R")
-					#sm.rh_up_open(motion_service)
-					#hands_down = False
+					sm.rh_up_open(motion_service)
+					hands_down = False
 				print("Right - Theta: " + str(math.degrees(theta[-1])) + ", Phi: " + str(math.degrees(phi[-1])) + "\n")
 			else:
 				if(hands_down == False):
 					sm.both_h_down(motion_service)
 					hands_down = True
-			if len(leftRight) == 2:
-				sm.both_h_up_open(motion_service)
-				hands_down = False				
-			elif len(leftRight) > 0 and leftRight[0] == "R":
-				sm.rh_up_open(motion_service)
-				hands_down = False
-			elif len(leftRight) > 0  and leftRight[0] == "L":
-				sm.lh_up_open(motion_service)
-				hands_down = False
-			
 			#userArmArticular(motion_service,theta, phi, leftRight)
-
-		
 	# Always clean up
 	cam.release()
 	cv2.destroyAllWindows()

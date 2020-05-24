@@ -54,9 +54,6 @@ def rh_up_open(motion):
 	keys.append([-1.20166])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  #motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
@@ -115,9 +112,6 @@ def rh_up_closed(motion):
 	keys.append([-1.20166])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  # motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
@@ -176,9 +170,6 @@ def lh_up_open(motion):
 	keys.append([0.0935271])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  # motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
@@ -238,9 +229,6 @@ def lh_up_closed(motion):
 	keys.append([0.0935271])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  # motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
@@ -355,9 +343,6 @@ def both_h_down(motion):
 	keys.append([0.146334])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  # motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
@@ -472,9 +457,6 @@ def both_h_up_closed(motion):
 	keys.append([-1.28334])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  # motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
@@ -589,9 +571,6 @@ def both_h_up_open(motion):
 	keys.append([-1.27435])
 
 	try:
-	  # uncomment the following line and modify the IP if you use this script outside Choregraphe.
-	  # motion = ALProxy("ALMotion", IP, 9559)
-	  #motion = ALProxy("ALMotion")
 	  motion.angleInterpolation(names, keys, times, True)
 	except BaseException, err:
 	  print err
